@@ -51,41 +51,48 @@ if(localStorage.product != null){
 
 submit.onclick = function (){
   let newPro = {
-    title:title.value,
+    title:title.value.toLowerCase(),
     price:price.value,
     taxes:taxes.value,
     ads:ads.value,
     discount:discount.value,
     total:total.innerHTML,
     count:count.value,
-    category:category.value,
+    category:category.value.toLowerCase(),
   }
 
-  if(mood === 'create'){
-    if(newPro.count > 1){
-      for(let i = 0 ; i < newPro.count ; i++){
-        //push() method adds new items to the end of an array 
-        dataPro.push(newPro);
+  if(title.value != '' 
+  && price.value != '' 
+  && category.value != ''
+  && newPro.count < 100){
+
+    if(mood === 'create'){
+      if(newPro.count > 1){
+        for(let i = 0 ; i < newPro.count ; i++){
+          //push() method adds new items to the end of an array 
+          dataPro.push(newPro);
+        }
+      }else{
+        dataPro.push(newPro)
       }
-    }else{
-      dataPro.push(newPro)
     }
+    //else nyn y3ud l mood Update
+    else{
+      dataPro[    temp    ] = newPro;
+      mood = 'create';
+      submit.innerHTML = 'Create';
+      count.style.display = 'block';
+    }
+
+    clearData();
+
   }
-  //else nyn y3ud l mood Update
-  else{
-    dataPro[    temp    ] = newPro;
-    mood = 'create';
-    submit.innerHTML = 'Create';
-    count.style.display = 'block';
-  }
-
-
-
+  
   //Function to Save in LocalStorage
   //go to localStrorage and create in it item and save in it data
   localStorage.setItem('product', JSON.stringify(dataPro))
   
-  clearData();
+  
 
   showData();
 
@@ -113,7 +120,7 @@ function showData(){
   for(let i = 0 ; i < dataPro.length ; i++ ){
     table += `
     <tr>
-    <td>${i}</td>
+    <td>${i + 1}</td>
     <td>${dataPro[i].title}</td>
     <td>${dataPro[i].price}</td>
     <td>${dataPro[i].taxes}</td>
@@ -181,13 +188,18 @@ function getSearchMood(id){
 
   if(id == 'searchTitle'){
     searchMood = 'title';
-    search.placeholder = 'Search By Title';
+    // search.placeholder = 'Search By Title';
   }
   else{
     searchMood = 'category';
-    search.placeholder = 'Search By Category';
+    // search.placeholder = 'Search By Category';
   }
+  search.placeholder = 'Search By '+ searchMood;
   search.focus();
+
+  search.value = '';
+
+  showData();
   
 }
 
@@ -201,7 +213,7 @@ function  searchData(value)
    {
 
     for(let i = 0; i < dataPro.length; i++){
-      if(dataPro[i].title.includes(value)){
+      if(dataPro[i].title.includes(value.toLowerCase())){
         
         table += `
         <tr>
@@ -224,9 +236,32 @@ function  searchData(value)
 
    }else{
 
+    for(let i = 0; i < dataPro.length; i++){
+      if(dataPro[i].category.includes(value.toLowerCase())){
+        
+        table += `
+        <tr>
+        <td>${i}</td>
+        <td>${dataPro[i].title}</td>
+        <td>${dataPro[i].price}</td>
+        <td>${dataPro[i].taxes}</td>
+        <td>${dataPro[i].ads}</td>
+        <td>${dataPro[i].discount}</td>
+        <td>${dataPro[i].total}</td>
+        <td>${dataPro[i].category}</td>
+        <td><button onclick="updateData( ${i} )" id="update">update</button></td>
+        <td><button onclick="deleteData( ${i} )" id="delete">delete</button></td>
+      </tr>`
+        ;
+
+
+      }
+    }
+
    }
    document.getElementById('tbody').innerHTML = table ;
 }
 
 
 //Clean data exp: No empty inputs or chi mandoru
+

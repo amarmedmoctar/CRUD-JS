@@ -17,6 +17,11 @@ body {
 .head {
   text-align: center;
   text-transform: uppercase;
+  margin: 20px 0;
+}
+
+.create-btn{
+  margin: 8px ;
 }
 
 input {
@@ -74,11 +79,13 @@ button:hover {
 .btnSearch{
   display: flex;
   justify-content: space-between;
+  margin: 8px ;
   
   
 }
 .btnSearch button{
   width: 45%;
+
 }
 table{
   width: 100%;
