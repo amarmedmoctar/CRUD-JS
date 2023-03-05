@@ -109,6 +109,7 @@ function clearData(){
 function showData(){
 
   let table = '';
+
   for(let i = 0 ; i < dataPro.length ; i++ ){
     table += `
     <tr>
@@ -123,7 +124,7 @@ function showData(){
     <td><button onclick="updateData( ${i} )" id="update">update</button></td>
     <td><button onclick="deleteData( ${i} )" id="delete">delete</button></td>
   </tr>`
-    
+    ;
   }
   document.getElementById('tbody').innerHTML = table ;
   let btnDelete = document.getElementById('deleteAll');
@@ -173,5 +174,59 @@ function updateData(i){
 
 }
 //Function to Search for any product
+let searchMood = 'title';
+
+function getSearchMood(id){
+  let search = document.getElementById('search');
+
+  if(id == 'searchTitle'){
+    searchMood = 'title';
+    search.placeholder = 'Search By Title';
+  }
+  else{
+    searchMood = 'category';
+    search.placeholder = 'Search By Category';
+  }
+  search.focus();
+  
+}
+
+
+
+function  searchData(value)
+{
+  let table = '';
+
+   if(searchMood == 'title')
+   {
+
+    for(let i = 0; i < dataPro.length; i++){
+      if(dataPro[i].title.includes(value)){
+        
+        table += `
+        <tr>
+        <td>${i}</td>
+        <td>${dataPro[i].title}</td>
+        <td>${dataPro[i].price}</td>
+        <td>${dataPro[i].taxes}</td>
+        <td>${dataPro[i].ads}</td>
+        <td>${dataPro[i].discount}</td>
+        <td>${dataPro[i].total}</td>
+        <td>${dataPro[i].category}</td>
+        <td><button onclick="updateData( ${i} )" id="update">update</button></td>
+        <td><button onclick="deleteData( ${i} )" id="delete">delete</button></td>
+      </tr>`
+        ;
+
+
+      }
+    }
+
+   }else{
+
+   }
+   document.getElementById('tbody').innerHTML = table ;
+}
+
 
 //Clean data exp: No empty inputs or chi mandoru
