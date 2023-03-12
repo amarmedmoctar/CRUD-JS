@@ -253,8 +253,7 @@ function  searchData(value)
         <td><button onclick="deleteData( ${i} )" id="delete">delete</button></td>
       </tr>`
         ;
-
-
+        
       }
     }
 
@@ -264,4 +263,3 @@ function  searchData(value)
 
 
 //Clean data exp: No empty inputs or chi mandoru
-
